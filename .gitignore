@@ -1,0 +1,8 @@
+# Ignore everything by default
+*
+
+# Keep these files
+!canvas.c
+!ds.c
+!README.md
+!.gitignore
