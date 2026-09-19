@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "dc.c"
+#include "ds.c"
 
 
 /*
@@ -130,18 +130,29 @@ void canvas_free(char *c){
     free(c-8);
 }
 
+/* 
+    transforms a canvas into a ds 
+    Will make two for, the first one iterates through columns, the second one through rows
+    I will copy every character into a buffer
+    At the end of each row, it will add a \n character, so the buffer will need to be (w*h + h) big
+*/
 char *canvas_render(char *c){
     uint32_t w = canvas_w(c);
     uint32_t h = canvas_h(c);
     
     uint32_t cap = w*h + h;
     char *buf = malloc(cap);
-    uint32_t i;
     
-    /* non funziona */
+    for(uint32_t y = 0; y < h; y++){
+        for(uint32_t x = 0; x < w; x++){
+            int index = canvas_index(c, x, y);
+            buf[index+y] = c[index];
+        }
+        buf[w*y + w + y] = '\n';
+    }
 
-    printf("dim: %d. index: %d", cap, i);
     char *s = ds_new(buf, cap);
+    free(buf);
     return s;
 }
 
